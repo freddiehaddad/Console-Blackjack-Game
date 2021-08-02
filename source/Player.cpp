@@ -2,6 +2,7 @@
 #include "Player.h"
 
 // ------------------------------------------------------------ Library Headers
+#include <stdexcept>
 
 // --------------------------------------------------------------- Constructors
 Player::Player(std::string_view name) : name_(name)
@@ -21,6 +22,9 @@ void Player::Take(Card card)
 
 Card Player::Return()
 {
+	if (Cards() == 0) {
+		throw std::logic_error("Player doesn't have any cards!");
+	}
 	Card card = cards_.back();
 	cards_.pop_back();
 	return card;
@@ -38,6 +42,9 @@ std::vector<Card>::const_iterator Player::End() const
 
 const Card &Player::Back() const
 {
+	if (Cards() == 0) {
+		throw std::logic_error("Player doesn't have any cards!");
+	}
 	return cards_.back();
 }
 
