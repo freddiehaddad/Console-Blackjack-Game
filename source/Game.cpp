@@ -4,8 +4,6 @@
 // ------------------------------------------------------------ Library Headers
 #include <algorithm>
 #include <iostream>
-#include <tuple>
-#include <vector>
 
 // --------------------------------------------------------------- Constructors
 Game::Game() : finished_(false), input_(std::cin)
@@ -46,120 +44,13 @@ bool Game::End() const
 // ------------------------------------------------------ Private Class Methods
 void Game::Initialize()
 {
-	const std::vector<std::string> states{ "Dealer Blackjack",
-					       "Dealer Busted",
-					       "Dealer Hand",
-					       "Dealer Hit",
-					       "Dealer Play",
-					       "Dealer Playing",
-					       "Dealer Stand",
-					       "Dealer Turn",
-					       "Dealing",
-					       "Quit Game",
-					       "Waiting for Players",
-					       "Next Player",
-					       "Player Blackjack",
-					       "Player Busted",
-					       "Player Hit",
-					       "Player Stand",
-					       "Playing",
-					       "Ready to Play",
-					       "Scoring",
-					       "Shuffling" };
-
 	enum ACTION_ARGS { KEY, NAME, FUNCTION };
-
-	const std::vector<
-		std::tuple<int, std::string, std::function<void(void *)> > >
-		actions{
-			std::make_tuple('A', "[A]dd Player",
-					std::bind(&Game::HandleAddPlayer, this,
-						  std::placeholders::_1)),
-			std::make_tuple('H', "[H]it",
-					std::bind(&Game::HandleHit, this,
-						  std::placeholders::_1)),
-			std::make_tuple('P', "[P]lay",
-					std::bind(&Game::HandlePlay, this,
-						  std::placeholders::_1)),
-			std::make_tuple('Q', "[Q]uit",
-					std::bind(&Game::HandleQuitGame, this,
-						  std::placeholders::_1)),
-			std::make_tuple('S', "[S]tand",
-					std::bind(&Game::DoNothing, this,
-						  std::placeholders::_1)),
-			std::make_tuple(0, "DoNothing",
-					std::bind(&Game::DoNothing, this,
-						  std::placeholders::_1)),
-			std::make_tuple(0, "HandleDeal",
-					std::bind(&Game::HandleDeal, this,
-						  std::placeholders::_1)),
-			std::make_tuple(0, "HandleDealerAction",
-					std::bind(&Game::HandleDealerAction,
-						  this, std::placeholders::_1)),
-			std::make_tuple(0, "HandleDealerScore",
-					std::bind(&Game::HandleDealerScore,
-						  this, std::placeholders::_1)),
-			std::make_tuple(0, "HandleNextPlayer",
-					std::bind(&Game::HandleNextPlayer, this,
-						  std::placeholders::_1)),
-			std::make_tuple(0, "HandleGameOver",
-					std::bind(&Game::HandleGameOver, this,
-						  std::placeholders::_1)),
-			std::make_tuple(0, "HandleScore",
-					std::bind(&Game::HandleScore, this,
-						  std::placeholders::_1)),
-			std::make_tuple(0, "HandleShuffle",
-					std::bind(&Game::HandleShuffle, this,
-						  std::placeholders::_1))
-		};
-
 	enum TRANSITION_ARGS { FROM, TO, ACTION };
 
-	const std::vector<std::tuple<std::string, std::string, int> >
-		userTransitions{
-			std::make_tuple("Waiting for Players", "Ready to Play",
-					'A'),
-			std::make_tuple("Waiting for Players", "Quit Game",
-					'Q'),
-			std::make_tuple("Ready to Play", "Ready to Play", 'A'),
-			std::make_tuple("Ready to Play", "Shuffling", 'P'),
-			std::make_tuple("Ready to Play", "Quit Game", 'Q'),
-			std::make_tuple("Playing", "Player Hit", 'H'),
-			std::make_tuple("Playing", "Player Stand", 'S'),
-			std::make_tuple("Playing", "Quit Game", 'Q')
-		};
-
-	const std::vector<std::tuple<std::string, std::string, std::string> >
-		automatedTransitions{
-			std::make_tuple("Shuffling", "Dealing",
-					"HandleShuffle"),
-			std::make_tuple("Dealing", "Dealer Hand", "HandleDeal"),
-			std::make_tuple("Dealer Hand", "Next Player",
-					"DoNothing"),
-			std::make_tuple("Next Player", "Scoring", "DoNothing"),
-			std::make_tuple("Scoring", "Playing", "HandleScore"),
-			std::make_tuple("Player Blackjack", "Next Player",
-					"HandleNextPlayer"),
-			std::make_tuple("Player Busted", "Next Player",
-					"HandleNextPlayer"),
-			std::make_tuple("Player Hit", "Scoring", "DoNothing"),
-			std::make_tuple("Player Stand", "Next Player",
-					"HandleNextPlayer"),
-			std::make_tuple("Dealer Turn", "Dealer Play",
-					"DoNothing"),
-			std::make_tuple("Dealer Play", "Dealer Playing",
-					"HandleDealerScore"),
-			std::make_tuple("Dealer Playing", "Dealer Play",
-					"HandleDealerAction"),
-			std::make_tuple("Dealer Hit", "Dealer Play",
-					"DoNothing"),
-			std::make_tuple("Dealer Blackjack", "Ready to Play",
-					"HandleGameOver"),
-			std::make_tuple("Dealer Busted", "Ready to Play",
-					"HandleGameOver"),
-			std::make_tuple("Dealer Stand", "Ready to Play",
-					"HandleGameOver")
-		};
+	auto &states = GetStates();
+	auto &actions = GetActions();
+	auto &automatedTransitions = GetAutomatedTransitions();
+	auto &userTransitions = GetUserTransitions();
 
 	StateMachine &stateMachine = logic_;
 
@@ -429,4 +320,121 @@ int Game::GetPlayerScore() const
 		score -= 10;
 	}
 	return score;
+}
+
+const Game::States &Game::GetStates() const
+{
+	static const States states{ "Dealer Blackjack",
+				    "Dealer Busted",
+				    "Dealer Hand",
+				    "Dealer Hit",
+				    "Dealer Play",
+				    "Dealer Playing",
+				    "Dealer Stand",
+				    "Dealer Turn",
+				    "Dealing",
+				    "Quit Game",
+				    "Waiting for Players",
+				    "Next Player",
+				    "Player Blackjack",
+				    "Player Busted",
+				    "Player Hit",
+				    "Player Stand",
+				    "Playing",
+				    "Ready to Play",
+				    "Scoring",
+				    "Shuffling" };
+	return states;
+}
+
+const Game::Actions &Game::GetActions()
+{
+	static Actions actions{
+		std::make_tuple('A', "[A]dd Player",
+				std::bind(&Game::HandleAddPlayer, this,
+					  std::placeholders::_1)),
+		std::make_tuple('H', "[H]it",
+				std::bind(&Game::HandleHit, this,
+					  std::placeholders::_1)),
+		std::make_tuple('P', "[P]lay",
+				std::bind(&Game::HandlePlay, this,
+					  std::placeholders::_1)),
+		std::make_tuple('Q', "[Q]uit",
+				std::bind(&Game::HandleQuitGame, this,
+					  std::placeholders::_1)),
+		std::make_tuple('S', "[S]tand",
+				std::bind(&Game::DoNothing, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "DoNothing",
+				std::bind(&Game::DoNothing, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleDeal",
+				std::bind(&Game::HandleDeal, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleDealerAction",
+				std::bind(&Game::HandleDealerAction, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleDealerScore",
+				std::bind(&Game::HandleDealerScore, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleNextPlayer",
+				std::bind(&Game::HandleNextPlayer, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleGameOver",
+				std::bind(&Game::HandleGameOver, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleScore",
+				std::bind(&Game::HandleScore, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleShuffle",
+				std::bind(&Game::HandleShuffle, this,
+					  std::placeholders::_1))
+	};
+	return actions;
+}
+
+const Game::UserTransitions &Game::GetUserTransitions() const
+{
+	static const UserTransitions userTransitions{
+		std::make_tuple("Waiting for Players", "Ready to Play", 'A'),
+		std::make_tuple("Waiting for Players", "Quit Game", 'Q'),
+		std::make_tuple("Ready to Play", "Ready to Play", 'A'),
+		std::make_tuple("Ready to Play", "Shuffling", 'P'),
+		std::make_tuple("Ready to Play", "Quit Game", 'Q'),
+		std::make_tuple("Playing", "Player Hit", 'H'),
+		std::make_tuple("Playing", "Player Stand", 'S'),
+		std::make_tuple("Playing", "Quit Game", 'Q')
+	};
+	return userTransitions;
+}
+
+const Game::AutomatedTransitions &Game::GetAutomatedTransitions() const
+{
+	static const AutomatedTransitions automatedTransitions{
+		std::make_tuple("Shuffling", "Dealing", "HandleShuffle"),
+		std::make_tuple("Dealing", "Dealer Hand", "HandleDeal"),
+		std::make_tuple("Dealer Hand", "Next Player", "DoNothing"),
+		std::make_tuple("Next Player", "Scoring", "DoNothing"),
+		std::make_tuple("Scoring", "Playing", "HandleScore"),
+		std::make_tuple("Player Blackjack", "Next Player",
+				"HandleNextPlayer"),
+		std::make_tuple("Player Busted", "Next Player",
+				"HandleNextPlayer"),
+		std::make_tuple("Player Hit", "Scoring", "DoNothing"),
+		std::make_tuple("Player Stand", "Next Player",
+				"HandleNextPlayer"),
+		std::make_tuple("Dealer Turn", "Dealer Play", "DoNothing"),
+		std::make_tuple("Dealer Play", "Dealer Playing",
+				"HandleDealerScore"),
+		std::make_tuple("Dealer Playing", "Dealer Play",
+				"HandleDealerAction"),
+		std::make_tuple("Dealer Hit", "Dealer Play", "DoNothing"),
+		std::make_tuple("Dealer Blackjack", "Ready to Play",
+				"HandleGameOver"),
+		std::make_tuple("Dealer Busted", "Ready to Play",
+				"HandleGameOver"),
+		std::make_tuple("Dealer Stand", "Ready to Play",
+				"HandleGameOver")
+	};
+	return automatedTransitions;
 }

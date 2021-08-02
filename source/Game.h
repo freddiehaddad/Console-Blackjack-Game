@@ -11,6 +11,8 @@
 
 // ------------------------------------------------------------ Library Headers
 #include <list>
+#include <tuple>
+#include <vector>
 
 // ----------------------------------------------------------- Class Definition
 class Game {
@@ -45,6 +47,19 @@ class Game {
 	std::string GetState() const;
 
 	int GetPlayerScore() const;
+
+	using Actions = std::vector<
+		std::tuple<int, std::string, std::function<void(void *)> > >;
+	using AutomatedTransitions =
+		std::vector<std::tuple<std::string, std::string, std::string> >;
+	using States = std::vector<std::string>;
+	using UserTransitions =
+		std::vector<std::tuple<std::string, std::string, int> >;
+
+	const Actions &GetActions();
+	const States &GetStates() const;
+	const AutomatedTransitions &GetAutomatedTransitions() const;
+	const UserTransitions &GetUserTransitions() const;
 
 	bool finished_;
 	Input input_;
