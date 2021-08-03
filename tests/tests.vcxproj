@@ -105,7 +105,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)source\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Action.obj;Card.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Action.obj;Card.obj;Deck.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)source\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Action.obj;Card.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Action.obj;Card.obj;Deck.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -143,7 +143,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)source\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Action.obj;Card.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Action.obj;Card.obj;Deck.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,12 +164,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)source\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Action.obj;Card.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Action.obj;Card.obj;Deck.obj;Input.obj;Player.obj;Players.obj;State.obj;StateMachine.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="action_tests.cpp" />
     <ClCompile Include="card_tests.cpp" />
+    <ClCompile Include="deck_tests.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

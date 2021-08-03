@@ -4,6 +4,7 @@
 // ------------------------------------------------------------ Library Headers
 #include <algorithm>
 #include <random>
+#include <stdexcept>
 
 // --------------------------------------------------------------- Constructors
 Deck::Deck()
@@ -14,6 +15,9 @@ Deck::Deck()
 // ------------------------------------------------------- Public Class Methods
 Card Deck::Take()
 {
+	if (Remaining() == 0) {
+		throw std::logic_error("No more cards!");
+	}
 	Card card = cards_.back();
 	cards_.pop_back();
 	return card;
