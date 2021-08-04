@@ -17,11 +17,12 @@ void Game::Start()
 	do {
 		if (AvailableOptions() > 0) {
 			// User-controlled play
-			std::cout << GetAvailableOptions() << ": ";
+			std::cout << std::endl << GetAvailableOptions() << ": ";
 			char option = std::toupper(input_.GetCharacter());
 
 			if (!IsValidOption(option)) {
-				std::cerr << option << " is not a valid option"
+				std::cerr << std::endl
+					  << option << " is not a valid option"
 					  << std::endl;
 				continue;
 			}
@@ -98,36 +99,63 @@ void Game::Draw() const
 {
 	std::string state = GetState();
 	if (state == "Shuffling") {
-		std::cout << "Shuffling...\n";
+		std::cout << std::endl << "Shuffling..." << std::endl;
 	} else if (state == "Dealing") {
-		std::cout << "Dealing...\n";
+		std::cout << "Dealing..." << std::endl;
 	} else if (state == "Next Player") {
-		std::cout << currentPlayer_->GetName() << "\n";
+		std::cout << std::endl
+			  << currentPlayer_->GetName() << std::endl;
 		std::for_each(currentPlayer_->Begin(), currentPlayer_->End(),
 			      [](const Card &card) {
-				      std::cout << card.Name() << "\n";
+				      std::cout << " " << card.Name()
+						<< std::endl;
 			      });
-	} else if (state == "Player Busted") {
-		std::cout << "Busted!\n";
-	} else if (state == "Player Blackjack") {
-		std::cout << "Blackjack!\n";
-	} else if (state == "Dealer Busted") {
-		std::cout << "Busted!\n";
-	} else if (state == "Dealer Blackjack") {
-		std::cout << "Blackjack!\n";
+	} else if (state == "Dealer Busted" || state == "Player Busted") {
+		std::cout
+			<< "__________               __             .___._."
+			<< std::endl
+			<< "\\______   \\__ __  ______/  |_  ____   __| _/| |"
+			<< std::endl
+			<< " |    |  _/  |  \\/  ___|   __\\/ __ \\ / __ | | |"
+			<< std::endl
+			<< " |    |   \\  |  /\\___ \\ |  | \\  ___// /_/ |  \\|"
+			<< std::endl
+			<< " |______  /____//____  >|__|  \\___  >____ |  __"
+			<< std::endl
+			<< "        \\/           \\/           \\/     \\/  \\/"
+			<< std::endl;
+	} else if (state == "Dealer Blackjack" || state == "Player Blackjack") {
+		std::cout
+			<< "__________.__                 __         __               __   ._."
+			<< std::endl
+			<< "\\______   \\  | _____    ____ |  | __    |__|____    ____ |  | _| |"
+			<< std::endl
+			<< " |    |  _/  | \\__  \\ _/ ___\\|  |/ /    |  \\__  \\ _/ ___\\|  |/ / |"
+			<< std::endl
+			<< " |    |   \\  |__/ __ \\\\  \\___|    <     |  |/ __ \\\\  \\___|    < \\|"
+			<< std::endl
+			<< " |______  /____(____  /\\___  >__|_ \\/\\__|  (____  /\\___  >__|_ \\__"
+			<< std::endl
+			<< "        \\/          \\/     \\/     \\/\\______|    \\/     \\/     \\/\\/"
+			<< std::endl;
 	} else if (state == "Player Hit") {
-		std::cout << currentPlayer_->Back().Name() << "\n";
+		std::cout << std::endl
+			  << " " << currentPlayer_->Back().Name() << std::endl;
 	} else if (state == "Dealer Hit") {
-		std::cout << currentPlayer_->Back().Name() << "\n";
+		std::cout << std::endl
+			  << " " << currentPlayer_->Back().Name() << std::endl;
 	} else if (state == "Dealer Hand") {
-		std::cout << players_.back().GetName() << "\n";
-		std::cout << players_.back().Begin()->Name() << "\n";
-		std::cout << "*****************\n";
+		std::cout << std::endl
+			  << players_.back().GetName() << std::endl;
+		std::cout << " " << players_.back().Begin()->Name()
+			  << std::endl;
 	} else if (state == "Dealer Turn") {
-		std::cout << currentPlayer_->GetName() << "\n";
+		std::cout << std::endl
+			  << currentPlayer_->GetName() << std::endl;
 		std::for_each(currentPlayer_->Begin(), currentPlayer_->End(),
 			      [](const Card &card) {
-				      std::cout << card.Name() << "\n";
+				      std::cout << " " << card.Name()
+						<< std::endl;
 			      });
 	} else {
 		// std::cerr << "Draw: " << GetState() << ", not implemented\n";
@@ -144,12 +172,13 @@ void Game::HandleAddPlayer(void *)
 	const std::string prompt = "Player's name: ";
 	std::string name;
 
-	std::cout << prompt;
+	std::cout << std::endl << prompt;
 	name = input_.GetString();
 	while (name.empty()) {
-		std::cerr << "A name must have at least one character."
+		std::cerr << std::endl
+			  << "A name must have at least one character."
 			  << std::endl;
-		std::cout << prompt;
+		std::cout << std::endl << prompt;
 		name = input_.GetString();
 	}
 
@@ -157,7 +186,7 @@ void Game::HandleAddPlayer(void *)
 	--pos;
 
 	players_.emplace(pos, name);
-	std::cout << name << " added to the game." << std::endl;
+	std::cout << std::endl << name << " added to the game." << std::endl;
 }
 
 void Game::HandleDeal(void *)
@@ -196,7 +225,7 @@ void Game::HandleDealerScore(void *arg)
 		*state = "Dealer Blackjack";
 	}
 
-	std::cout << score << "\n";
+	std::cout << std::endl << " " << score << std::endl;
 }
 
 void Game::HandleGameOver(void *)
@@ -252,7 +281,7 @@ void Game::HandleScore(void *arg)
 		*state = "Player Blackjack";
 	}
 
-	std::cout << score << "\n";
+	std::cout << std::endl << " " << score << std::endl;
 }
 
 void Game::HandleShuffle(void *)

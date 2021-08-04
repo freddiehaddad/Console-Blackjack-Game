@@ -93,7 +93,7 @@ std::string StateMachine::GetActions() const
 	std::ostringstream stream;
 	std::string string;
 
-	const std::string separator = ", ";
+	const std::string separator = " ";
 	auto s = stateMachine_.find(currentState_);
 	std::for_each(s->second.begin(), s->second.end(),
 		      [&stream, &separator](const auto &pair) {
