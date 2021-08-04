@@ -16,16 +16,19 @@ TEST_CLASS(DeckTests){
 
 	TEST_METHOD(Constructor)
 	{
+		size_t remaining = 52;
 		Deck deck;
-		Assert::AreEqual(52u, deck.Remaining());
+		Assert::AreEqual(remaining, deck.Remaining());
 	}
 
 	TEST_METHOD(TakeSingleCard)
 	{
+		size_t remaining = 52;
 		Deck deck;
-		Assert::AreEqual(52u, deck.Remaining());
+		Assert::AreEqual(remaining, deck.Remaining());
 		deck.Take();
-		Assert::AreEqual(51u, deck.Remaining());
+		--remaining;
+		Assert::AreEqual(remaining, deck.Remaining());
 	}
 
 	TEST_METHOD(TakeCardException)
@@ -46,6 +49,7 @@ TEST_CLASS(DeckTests){
 	{
 		const int ranks = 13;
 		const int suits = 4;
+		size_t remainder = 0;
 		size_t nCards = ranks * suits;
 		Deck deck;
 		Assert::AreEqual(nCards, deck.Remaining());
@@ -58,17 +62,20 @@ TEST_CLASS(DeckTests){
 				Assert::AreEqual(nCards, deck.Remaining());
 			}
 		}
-		Assert::AreEqual(0u, deck.Remaining());
+		Assert::AreEqual(remainder, deck.Remaining());
 	}
 
 	TEST_METHOD(CheckTakeAndReturn)
 	{
+		size_t remaining = 52;
 		Deck deck;
-		Assert::AreEqual(52u, deck.Remaining());
+		Assert::AreEqual(remaining, deck.Remaining());
 		Card card = deck.Take();
-		Assert::AreEqual(51u, deck.Remaining());
+		--remaining;
+		Assert::AreEqual(remaining, deck.Remaining());
 		deck.Return(card);
-		Assert::AreEqual(52u, deck.Remaining());
+		++remaining;
+		Assert::AreEqual(remaining, deck.Remaining());
 	}
 
 	TEST_METHOD(Shuffle)
@@ -108,8 +115,8 @@ TEST_CLASS(DeckTests){
 		std::for_each(hashTable.begin(), hashTable.end(),
 			      [&ranks](const std::vector<int> &cards) {
 				      Assert::AreEqual(ranks, cards.size());
-				      for (int i = 0; i < cards.size(); ++i) {
-					      Assert::AreEqual(i, cards[i]);
+				      for (size_t i = 0; i < cards.size(); ++i) {
+					      Assert::AreEqual(static_cast<int>(i), cards[i]);
 				      }
 			      });
 	}

@@ -114,6 +114,7 @@ TEST_CLASS(StateMachineTests) {
 		const std::string FROM = "FROM";
 		const std::string TO = "TO";
 		const std::string ACTION = "Action A";
+		const size_t actions = 1;
 		const int key = 'A';
 		bool result;
 
@@ -132,19 +133,19 @@ TEST_CLASS(StateMachineTests) {
 
 		machine.SetState(FROM);
 
-		Assert::AreEqual(1u, machine.Actions());
+		Assert::AreEqual(actions, machine.Actions());
 		Assert::AreEqual(ACTION, machine.GetActions());
 		Assert::AreEqual(FROM, machine.GetState());
 			
 		machine.UpdateState(key);
 		
-		Assert::AreEqual(1u, machine.Actions());
+		Assert::AreEqual(actions, machine.Actions());
 		Assert::AreEqual(ACTION, machine.GetActions());
 		Assert::AreEqual(TO, machine.GetState());
 
 		machine.UpdateState(key);
 
-		Assert::AreEqual(1u, machine.Actions());
+		Assert::AreEqual(actions, machine.Actions());
 		Assert::AreEqual(ACTION, machine.GetActions());
 		Assert::AreEqual(FROM, machine.GetState());
 	}
@@ -154,6 +155,7 @@ TEST_CLASS(StateMachineTests) {
 		const std::string FROM = "FROM";
 		const std::string TO = "TO";
 		const std::string ACTION = "ACTION";
+		const size_t actions = 0;
 		bool result;
 
 		StateMachine machine;
@@ -171,17 +173,17 @@ TEST_CLASS(StateMachineTests) {
 
 		machine.SetState(FROM);
 
-		Assert::AreEqual(0u, machine.Actions());
+		Assert::AreEqual(actions, machine.Actions());
 		Assert::AreEqual(FROM, machine.GetState());
 
 		machine.UpdateState();
 
-		Assert::AreEqual(0u, machine.Actions());
+		Assert::AreEqual(actions, machine.Actions());
 		Assert::AreEqual(TO, machine.GetState());
 
 		machine.UpdateState();
 
-		Assert::AreEqual(0u, machine.Actions());
+		Assert::AreEqual(actions, machine.Actions());
 		Assert::AreEqual(FROM, machine.GetState());
 	}
 };
