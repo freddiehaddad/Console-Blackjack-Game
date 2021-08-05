@@ -188,6 +188,7 @@
     <ClCompile Include="input_tests.cpp" />
     <ClCompile Include="player_tests.cpp" />
     <ClCompile Include="statemachine_tests.cpp" />
+    <ClCompile Include="state_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
