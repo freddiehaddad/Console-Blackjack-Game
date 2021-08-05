@@ -1,31 +1,32 @@
 # C++ Console Blackjack Game
 
-A console-based game of blackjack supporting multiple players.  Standard
-Blackjack rules implmented.
+A console-based game of Blackjack supporting multiple players.
 
-- Blackjack on opening hand when first two cards are an Ace and any ten-point
-  card.
-- Hand value exceeding twenty one points is a bust.
+Standard Blackjack rules apply such as:
+
+- Ace and any ten-point card is a Blackjack.
+- A hand exceeding twenty one points is a bust.
 - Ace can be treated as soft or hard.
 - Dealer stays on 17.
 
 ## Overview
 
-The game is written in C++ using some language features from C++ 17.  The goals
-of this project were to think through an object-oriented software design
-approach and the use of a state machine (graph) to apply the correct logic
-given the current state and action take (either by the player or computer).
+The game is written in C++ using language features from C++ 17 specification.
+The goals of this project included an object-oriented approach and the use of a
+state machine (graph) to apply the correct game logic given the current state
+and the action taken in that state (either by the player or computer).
 
-A test-driven approach was used and all components have corresponding unit
-tests designed with the intention of also showing how the comoponents are
-expected to work and be used.
+A test-driven development model was used and all components have corresponding
+unittests designed with the intention of illustrating how each of the
+comoponents is expected to work and be used.
 
-Further refactoring is ongoing with the attempts of hardening the design and
-ensuring interfaces are easy to correctly and hard to use incorrectly.
+Further refactoring will continue with the goals of hardening the design,
+implementing interfaces, and ensuring interfaces are easy to correctly and hard
+to use incorrectly.
 
 ## Gameplay and Output
 
-Output from an actual round of blackjack with a single player and dealer.
+Output from an actual round of Blackjack with a player and dealer.
 
 ```
 Welcome to Console
