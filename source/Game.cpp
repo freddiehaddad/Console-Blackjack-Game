@@ -98,65 +98,23 @@ void Game::Initialize()
 void Game::Draw() const
 {
 	std::string state = GetState();
-	if (state == "Shuffling") {
-		std::cout << std::endl << "Shuffling..." << std::endl;
-	} else if (state == "Dealing") {
-		std::cout << "Dealing..." << std::endl;
-	} else if (state == "Next Player") {
-		std::cout << std::endl
-			  << currentPlayer_->GetName() << std::endl;
-		std::for_each(currentPlayer_->Begin(), currentPlayer_->End(),
-			      [](const Card &card) {
-				      std::cout << " " << card.Name()
-						<< std::endl;
-			      });
+	if (state == "Dealer Blackjack" || state == "Player Blackjack") {
+		DrawBlackjack();
 	} else if (state == "Dealer Busted" || state == "Player Busted") {
-		std::cout
-			<< "__________               __             .___._."
-			<< std::endl
-			<< "\\______   \\__ __  ______/  |_  ____   __| _/| |"
-			<< std::endl
-			<< " |    |  _/  |  \\/  ___|   __\\/ __ \\ / __ | | |"
-			<< std::endl
-			<< " |    |   \\  |  /\\___ \\ |  | \\  ___// /_/ |  \\|"
-			<< std::endl
-			<< " |______  /____//____  >|__|  \\___  >____ |  __"
-			<< std::endl
-			<< "        \\/           \\/           \\/     \\/  \\/"
-			<< std::endl;
-	} else if (state == "Dealer Blackjack" || state == "Player Blackjack") {
-		std::cout
-			<< "__________.__                 __         __               __   ._."
-			<< std::endl
-			<< "\\______   \\  | _____    ____ |  | __    |__|____    ____ |  | _| |"
-			<< std::endl
-			<< " |    |  _/  | \\__  \\ _/ ___\\|  |/ /    |  \\__  \\ _/ ___\\|  |/ / |"
-			<< std::endl
-			<< " |    |   \\  |__/ __ \\\\  \\___|    <     |  |/ __ \\\\  \\___|    < \\|"
-			<< std::endl
-			<< " |______  /____(____  /\\___  >__|_ \\/\\__|  (____  /\\___  >__|_ \\__"
-			<< std::endl
-			<< "        \\/          \\/     \\/     \\/\\______|    \\/     \\/     \\/\\/"
-			<< std::endl;
-	} else if (state == "Player Hit") {
-		std::cout << std::endl
-			  << " " << currentPlayer_->Back().Name() << std::endl;
+		DrawBusted();
 	} else if (state == "Dealer Hit") {
-		std::cout << std::endl
-			  << " " << currentPlayer_->Back().Name() << std::endl;
+		DrawPlayerNewCard();
 	} else if (state == "Dealer Hand") {
-		std::cout << std::endl
-			  << players_.back().GetName() << std::endl;
-		std::cout << " " << players_.back().Begin()->Name()
-			  << std::endl;
-	} else if (state == "Dealer Turn") {
-		std::cout << std::endl
-			  << currentPlayer_->GetName() << std::endl;
-		std::for_each(currentPlayer_->Begin(), currentPlayer_->End(),
-			      [](const Card &card) {
-				      std::cout << " " << card.Name()
-						<< std::endl;
-			      });
+		DrawDealerStartingHand();
+	} else if (state == "Dealer Turn" || state == "Next Player") {
+		DrawPlayerName();
+		DrawPlayerHand();
+	} else if (state == "Dealing") {
+		DrawDealing();
+	} else if (state == "Player Hit") {
+		DrawPlayerNewCard();
+	} else if (state == "Shuffling") {
+		DrawShuffling();
 	} else {
 		// std::cerr << "Draw: " << GetState() << ", not implemented\n";
 	}
@@ -287,6 +245,74 @@ void Game::HandleScore(void *arg)
 void Game::HandleShuffle(void *)
 {
 	deck_.Shuffle();
+}
+
+void Game::DrawBlackjack() const
+{
+	std::cout
+		<< "__________.__                 __         __               __   ._."
+		<< std::endl
+		<< "\\______   \\  | _____    ____ |  | __    |__|____    ____ |  | _| |"
+		<< std::endl
+		<< " |    |  _/  | \\__  \\ _/ ___\\|  |/ /    |  \\__  \\ _/ ___\\|  |/ / |"
+		<< std::endl
+		<< " |    |   \\  |__/ __ \\\\  \\___|    <     |  |/ __ \\\\  \\___|    < \\|"
+		<< std::endl
+		<< " |______  /____(____  /\\___  >__|_ \\/\\__|  (____  /\\___  >__|_ \\__"
+		<< std::endl
+		<< "        \\/          \\/     \\/     \\/\\______|    \\/     \\/     \\/\\/"
+		<< std::endl;
+}
+
+void Game::DrawBusted() const
+{
+	std::cout << "__________               __             .___._."
+		  << std::endl
+		  << "\\______   \\__ __  ______/  |_  ____   __| _/| |"
+		  << std::endl
+		  << " |    |  _/  |  \\/  ___|   __\\/ __ \\ / __ | | |"
+		  << std::endl
+		  << " |    |   \\  |  /\\___ \\ |  | \\  ___// /_/ |  \\|"
+		  << std::endl
+		  << " |______  /____//____  >|__|  \\___  >____ |  __"
+		  << std::endl
+		  << "        \\/           \\/           \\/     \\/  \\/"
+		  << std::endl;
+}
+
+void Game::DrawDealerStartingHand() const
+{
+	std::cout << std::endl << players_.back().GetName() << std::endl;
+	std::cout << " " << players_.back().Begin()->Name() << std::endl;
+}
+
+void Game::DrawDealing() const
+{
+	std::cout << "Dealing..." << std::endl;
+}
+
+void Game::DrawPlayerHand() const
+{
+	std::for_each(currentPlayer_->Begin(), currentPlayer_->End(),
+		      [](const Card &card) {
+			      std::cout << " " << card.Name() << std::endl;
+		      });
+}
+
+void Game::DrawPlayerName() const
+{
+	std::cout << std::endl << currentPlayer_->GetName() << std::endl;
+}
+
+void Game::DrawPlayerNewCard() const
+{
+	std::cout << std::endl
+		  << " " << currentPlayer_->Back().Name() << std::endl;
+}
+
+void Game::DrawShuffling() const
+{
+	std::cout << std::endl << "Shuffling..." << std::endl;
 }
 
 bool Game::IsValidOption(char option) const

@@ -39,6 +39,15 @@ class Game {
 	void HandleScore(void *);
 	void HandleShuffle(void *);
 
+	void DrawBlackjack() const;
+	void DrawBusted() const;
+	void DrawDealerStartingHand() const;
+	void DrawDealing() const;
+	void DrawPlayerHand() const;
+	void DrawPlayerName() const;
+	void DrawPlayerNewCard() const;
+	void DrawShuffling() const;
+
 	bool IsValidOption(char option) const;
 	void ProcessOption(char option);
 	void ProcessNextAction();
