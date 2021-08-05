@@ -58,12 +58,12 @@ class Game {
 	int GetPlayerScore() const;
 
 	using Actions = std::vector<
-		std::tuple<int, std::string, std::function<void(void *)> > >;
+		std::tuple<int, std::string, std::function<void(void *)>>>;
 	using AutomatedTransitions =
-		std::vector<std::tuple<std::string, std::string, std::string> >;
+		std::vector<std::tuple<std::string, std::string, std::string>>;
 	using States = std::vector<std::string>;
 	using UserTransitions =
-		std::vector<std::tuple<std::string, std::string, int> >;
+		std::vector<std::tuple<std::string, std::string, int>>;
 
 	const Actions &GetActions();
 	const States &GetStates() const;

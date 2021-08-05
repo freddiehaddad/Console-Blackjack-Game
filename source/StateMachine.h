@@ -66,5 +66,5 @@ class StateMachine {
 	std::map<std::string, Action> automatedActions_;
 
 	State currentState_;
-	std::map<State, std::map<Action, State> > stateMachine_;
+	std::map<State, std::map<Action, State>> stateMachine_;
 };

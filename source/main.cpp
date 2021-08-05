@@ -11,7 +11,7 @@ static void DrawBlackjack();
 int main()
 {
 	std::cout << "Welcome to Console" << std::endl;
-	
+
 	DrawBlackjack();
 
 	Game game;
@@ -20,7 +20,7 @@ int main()
 	std::cout << std::endl << "Thanks for playing!" << std::endl;
 
 	return 0;
-} 
+}
 
 // ------------------------------------------------------- Function Definitions
 static void DrawBlackjack()
@@ -44,4 +44,3 @@ static void DrawBlackjack()
 		<< "        \\/          \\/     \\/     \\/\\______|    \\/     \\/     \\/"
 		<< std::endl;
 }
-
