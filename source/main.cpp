@@ -30,7 +30,7 @@ int main()
 	Game game;
 	game.Start();
 
-	std::cout << "Thanks for playing!" << std::endl;
+	std::cout << std::endl << "Thanks for playing!" << std::endl;
 
 	return 0;
 }
