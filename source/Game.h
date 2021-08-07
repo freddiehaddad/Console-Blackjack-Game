@@ -46,6 +46,7 @@ class Game {
 	void DrawPlayerHand() const;
 	void DrawPlayerName() const;
 	void DrawPlayerNewCard() const;
+	void DrawScore() const;
 	void DrawShuffling() const;
 
 	bool IsValidOption(char option) const;

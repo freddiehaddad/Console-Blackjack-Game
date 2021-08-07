@@ -106,6 +106,8 @@ void Game::Draw() const
 		DrawPlayerNewCard();
 	} else if (state == "Dealer Hand") {
 		DrawDealerStartingHand();
+	} else if (state == "Dealer Play") {
+		DrawScore();
 	} else if (state == "Dealer Turn" || state == "Next Player") {
 		DrawPlayerName();
 		DrawPlayerHand();
@@ -113,6 +115,8 @@ void Game::Draw() const
 		DrawDealing();
 	} else if (state == "Player Hit") {
 		DrawPlayerNewCard();
+	} else if (state == "Scoring") {
+		DrawScore();
 	} else if (state == "Shuffling") {
 		DrawShuffling();
 	} else {
@@ -182,8 +186,6 @@ void Game::HandleDealerScore(void *arg)
 	} else if (score == 21 && currentPlayer_->Cards() == 2) {
 		*state = "Dealer Blackjack";
 	}
-
-	std::cout << std::endl << " " << score << std::endl;
 }
 
 void Game::HandleGameOver(void *)
@@ -238,8 +240,6 @@ void Game::HandleScore(void *arg)
 	} else if (score == 21 && currentPlayer_->Cards() == 2) {
 		*state = "Player Blackjack";
 	}
-
-	std::cout << std::endl << " " << score << std::endl;
 }
 
 void Game::HandleShuffle(void *)
@@ -308,6 +308,12 @@ void Game::DrawPlayerNewCard() const
 {
 	std::cout << std::endl
 		  << " " << currentPlayer_->Back().Name() << std::endl;
+}
+
+void Game::DrawScore() const
+{
+	int score = GetPlayerScore();
+	std::cout << std::endl << " " << score << std::endl;
 }
 
 void Game::DrawShuffling() const
