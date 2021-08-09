@@ -115,6 +115,8 @@ void Game::Draw() const
 		DrawDealing();
 	} else if (state == "Player Hit") {
 		DrawPlayerNewCard();
+	} else if (state == "Results") {
+		DrawResults();
 	} else if (state == "Scoring") {
 		DrawScore();
 	} else if (state == "Shuffling") {
@@ -144,11 +146,14 @@ void Game::HandleAddPlayer(void *)
 		name = input_.GetString();
 	}
 
-	auto pos = players_.end();
-	--pos;
+	auto pPos = players_.end();
+	--pPos;
 
-	players_.emplace(pos, name);
+	players_.emplace(pPos, name);
 	std::cout << std::endl << name << " added to the game." << std::endl;
+
+	auto sPos = results_.end();
+	results_.emplace(sPos, name);
 }
 
 void Game::HandleDeal(void *)
@@ -230,6 +235,65 @@ void Game::HandleQuitGame(void *)
 	finished_ = true;
 }
 
+void Game::HandleResults(void *)
+{
+	auto i = players_.end();
+	--i;
+
+	currentPlayer_ = i;
+	int dealerScore = GetPlayerScore();
+	bool dealerBlackjack = false;
+
+	if (currentPlayer_->Cards() == 2 && dealerScore == 21) {
+		dealerBlackjack = true;
+	}
+
+	auto b = players_.begin();
+	auto e = players_.end();
+	--e;
+
+	auto player = results_.begin();
+
+	while (b != e) {
+		currentPlayer_ = b;
+		
+		int playerScore = GetPlayerScore();
+		bool playerBlackjack = false;
+		if (currentPlayer_->Cards() == 2 && playerScore == 21) {
+			playerBlackjack = true;
+		}
+
+		if (dealerBlackjack) {
+			if (playerBlackjack) {
+				*player = b->GetName() + ": Push";
+			} else {
+				*player = b->GetName() + ": Loser";
+			}
+		} else if (playerBlackjack) {
+			*player = b->GetName() + ": Winner";
+		} else if (dealerScore > 21) {
+			if (playerScore > 21) {
+				*player = b->GetName() + ": Loser";
+			} else {
+				*player = b->GetName() + ": Winner";
+			}
+		} else {
+			if (playerScore > 21) {
+				*player = b->GetName() + ": Loser";
+			} else if (playerScore < dealerScore) {
+				*player = b->GetName() + ": Loser";
+			} else if (playerScore == dealerScore) {
+				*player = b->GetName() + ": Push";
+			} else {
+				*player = b->GetName() + ": Winner";
+			}
+		}
+
+		++player;
+		++b;
+	}
+}
+
 void Game::HandleScore(void *arg)
 {
 	std::string *state = static_cast<std::string *>(arg);
@@ -308,6 +372,15 @@ void Game::DrawPlayerNewCard() const
 {
 	std::cout << std::endl
 		  << " " << currentPlayer_->Back().Name() << std::endl;
+}
+
+void Game::DrawResults() const
+{
+	std::cout << std::endl;
+	std::for_each(results_.begin(), results_.end(),
+		      [](std::string_view result) {
+			      std::cout << result << std::endl;
+		      });
 }
 
 void Game::DrawScore() const
@@ -403,6 +476,7 @@ const Game::States &Game::GetStates() const
 				    "Player Stand",
 				    "Playing",
 				    "Ready to Play",
+				    "Results",
 				    "Scoring",
 				    "Shuffling" };
 	return states;
@@ -443,6 +517,9 @@ const Game::Actions &Game::GetActions()
 					  std::placeholders::_1)),
 		std::make_tuple(0, "HandleGameOver",
 				std::bind(&Game::HandleGameOver, this,
+					  std::placeholders::_1)),
+		std::make_tuple(0, "HandleResults",
+				std::bind(&Game::HandleResults, this,
 					  std::placeholders::_1)),
 		std::make_tuple(0, "HandleScore",
 				std::bind(&Game::HandleScore, this,
@@ -490,12 +567,11 @@ const Game::AutomatedTransitions &Game::GetAutomatedTransitions() const
 		std::make_tuple("Dealer Playing", "Dealer Play",
 				"HandleDealerAction"),
 		std::make_tuple("Dealer Hit", "Dealer Play", "DoNothing"),
-		std::make_tuple("Dealer Blackjack", "Ready to Play",
-				"HandleGameOver"),
-		std::make_tuple("Dealer Busted", "Ready to Play",
-				"HandleGameOver"),
-		std::make_tuple("Dealer Stand", "Ready to Play",
-				"HandleGameOver")
+		std::make_tuple("Dealer Blackjack", "Results", "HandleResults"),
+		std::make_tuple("Dealer Busted", "Results", "HandleResults"),
+		std::make_tuple("Dealer Stand", "Results", "HandleResults"),
+		std::make_tuple("Results", "Ready to Play", "HandleGameOver")
+
 	};
 	return automatedTransitions;
 }

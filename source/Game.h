@@ -36,6 +36,7 @@ class Game {
 	void HandleNextPlayer(void *);
 	void HandlePlay(void *);
 	void HandleQuitGame(void *);
+	void HandleResults(void *);
 	void HandleScore(void *);
 	void HandleShuffle(void *);
 
@@ -46,6 +47,7 @@ class Game {
 	void DrawPlayerHand() const;
 	void DrawPlayerName() const;
 	void DrawPlayerNewCard() const;
+	void DrawResults() const;
 	void DrawScore() const;
 	void DrawShuffling() const;
 
@@ -76,6 +78,7 @@ class Game {
 	StateMachine logic_;
 
 	Deck deck_;
+	std::list<std::string> results_;
 	std::list<Player> players_;
 	std::list<Player>::iterator currentPlayer_;
 };
