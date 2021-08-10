@@ -89,6 +89,8 @@ __________               __             .___._.
  |______  /____//____  >|__|  \___  >____ |  __
         \/           \/           \/     \/  \/
 
+Freddie: Winner
+
 [A]dd Player [P]lay [Q]uit: q
 
 Thanks for playing!
