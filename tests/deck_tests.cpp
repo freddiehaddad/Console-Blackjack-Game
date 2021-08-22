@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-#include "../source/Deck.h"
+#include "../source/DeckFactory.h"
 
 #include <algorithm>
 
@@ -17,14 +17,14 @@ TEST_CLASS(DeckTests){
 	TEST_METHOD(Constructor)
 	{
 		size_t remaining = 52;
-		Deck deck;
+		Deck deck = DeckFactory::CreateStandardDeck();
 		Assert::AreEqual(remaining, deck.Remaining());
 	}
 
 	TEST_METHOD(TakeSingleCard)
 	{
 		size_t remaining = 52;
-		Deck deck;
+		Deck deck = DeckFactory::CreateStandardDeck();
 		Assert::AreEqual(remaining, deck.Remaining());
 		deck.Take();
 		--remaining;
@@ -35,7 +35,7 @@ TEST_CLASS(DeckTests){
 	{
 		const size_t cards = 52;
 		size_t taken = 0;
-		Deck deck;
+		Deck deck = DeckFactory::CreateStandardDeck();
 		Assert::AreEqual(cards, deck.Remaining());
 		while (taken != 52) {
 			deck.Take();
@@ -51,7 +51,7 @@ TEST_CLASS(DeckTests){
 		const int suits = 4;
 		size_t remainder = 0;
 		size_t nCards = ranks * suits;
-		Deck deck;
+		Deck deck = DeckFactory::CreateStandardDeck();
 		Assert::AreEqual(nCards, deck.Remaining());
 		for (int suit = 3; suit >= 0; --suit) {
 			for (int rank = 12; rank >= 0; --rank) {
@@ -68,7 +68,7 @@ TEST_CLASS(DeckTests){
 	TEST_METHOD(CheckTakeAndReturn)
 	{
 		size_t remaining = 52;
-		Deck deck;
+		Deck deck = DeckFactory::CreateStandardDeck();
 		Assert::AreEqual(remaining, deck.Remaining());
 		Card card = deck.Take();
 		--remaining;
@@ -84,7 +84,7 @@ TEST_CLASS(DeckTests){
 		const size_t ranks = 13;
 		const size_t cards = suits * ranks;
 
-		Deck deck;
+		Deck deck = DeckFactory::CreateStandardDeck();
 		
 		// Create a hash table to account for all the shuffled cards
 		std::vector<std::vector<int> > hashTable;

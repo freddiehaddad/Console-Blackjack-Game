@@ -9,7 +9,6 @@
 // --------------------------------------------------------------- Constructors
 Deck::Deck()
 {
-	Initialize(cards_);
 }
 
 // ------------------------------------------------------- Public Class Methods
@@ -41,14 +40,3 @@ void Deck::Shuffle()
 }
 
 // ------------------------------------------------------ Private Class Methods
-void Deck::Initialize(std::vector<Card> &cards)
-{
-	const int ranks = 13;
-	const int suits = 4;
-
-	for (int suit = 0; suit < suits; ++suit) {
-		for (int rank = 0; rank < ranks; ++rank) {
-			cards.emplace_back(rank, suit);
-		}
-	}
-}

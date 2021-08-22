@@ -1,5 +1,6 @@
 // ------------------------------------------------------------ Project Headers
 #include "Game.h"
+#include "DeckFactory.h"
 
 // ------------------------------------------------------------ Library Headers
 #include <algorithm>
@@ -47,6 +48,8 @@ void Game::Initialize()
 {
 	enum ACTION_ARGS { KEY, NAME, FUNCTION };
 	enum TRANSITION_ARGS { FROM, TO, ACTION };
+
+	deck_ = DeckFactory::CreateStandardDeck();
 
 	auto &states = GetStates();
 	auto &actions = GetActions();

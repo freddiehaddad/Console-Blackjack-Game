@@ -1,26 +1,16 @@
 #pragma once
 //
-// Deck - a descriptor for a collection of Cards.
+// DeckFactory - used for creating various types of Decks.
 //
 
 // ------------------------------------------------------------ Project Headers
-#include "Card.h"
+#include "Deck.h"
 
 // ------------------------------------------------------------ Library Headers
-#include <vector>
 
 // ----------------------------------------------------------- Class Definition
-class Deck {
+class DeckFactory {
     public:
-	Deck();
-
-	Card Take();
-	void Return(Card card);
-
-	std::size_t Remaining() const;
-
-	void Shuffle();
-
-    private:
-	std::vector<Card> cards_;
+	static Deck CreateEmptyDeck();
+	static Deck CreateStandardDeck();
 };
